@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Данные с Google Sheets</title>
+</head>
+<body>
+  <h1>Температура и Дата</h1>
+  <table id="data-table" border="1"></table>
+
+  <script>
+    const csvUrl = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQNm0z7HAHk-rB85QmLpIZgTZv9QDysMIKHiS_uJFBSXU0_EiiuN3jw2P4XbJf4s4qxlpoKdU2wZDPu/pub?gid=0&single=true&output=csv';
+
+    fetch(csvUrl)
+      .then(response => response.text())
+      .then(data => {
+        const rows = data.split('\n');
+        const table = document.getElementById('data-table');
+
+        rows.forEach((row, rowIndex) => {
+          const tr = document.createElement('tr');
+          row.split(',').forEach(cell => {
+            const td = document.createElement(rowIndex === 0 ? 'th' : 'td');
+            td.textContent = cell.trim();
+            tr.appendChild(td);
+          });
+          table.appendChild(tr);
+        });
+      });
+  </script>
+</body>
+</html>
